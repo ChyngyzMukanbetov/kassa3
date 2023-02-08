@@ -1,9 +1,12 @@
 package com.example.kassa3.model.enums;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Optional;
 
+@Getter
 @AllArgsConstructor
 public enum Color {
 

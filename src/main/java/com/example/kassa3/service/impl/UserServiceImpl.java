@@ -20,6 +20,10 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         return userDao.getUserByUsername(username);
     }
 
+    public User findByEmail(String email) {
+        return userDao.getUserByEmail(email);
+    }
+
     @Override
     public User findByPhone(Phone phone) {
         return userDao.getUserByPhone(phone);
@@ -29,6 +33,9 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     public boolean existsByUsername(String username) {
         return userDao.existsByUsername(username);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {return userDao.existsByEmail(email); }
 
     @Override
     public boolean existsByPhone(Phone phone) {

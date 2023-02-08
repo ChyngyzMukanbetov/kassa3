@@ -1,10 +1,12 @@
 package com.example.kassa3.model.enums;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Optional;
 
+@Getter
 @AllArgsConstructor
 public enum Measure {
 
@@ -43,7 +45,7 @@ public enum Measure {
     AMPOULE("Ampoule", "Ампула", "AMP", "АМПУЛ", "870"),
     FLACON("Flacon", "Флакон", "FLC", "ФЛАК", "872"),
     BOX("Box", "Коробка", "BOX", "КОР", "875"),
-    DOCUMENT("document", "документ", "DOC", "ДОК", "9246");
+    DOCUMENT("Document", "Документ", "DOC", "ДОК", "9246");
 
     private final String engName;
     private final String rusName;
@@ -77,7 +79,8 @@ public enum Measure {
                 .filter(measure -> measure.engName.equals(name)
                         || measure.rusName.equals(name)
                         || measure.rusShortName.equals(name)
-                        || measure.engShortName.equals(name))
+                        || measure.engShortName.equals(name)
+                        || measure.code.equals(name))
                 .findFirst();
     }
 }

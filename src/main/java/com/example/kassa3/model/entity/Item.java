@@ -1,11 +1,14 @@
 package com.example.kassa3.model.entity;
 
+import com.example.kassa3.model.document.ItemArrivalDetails;
+import com.example.kassa3.model.document.ItemSellDetails;
+import com.example.kassa3.model.document.ItemWriteOffDetails;
 import com.example.kassa3.model.enums.Color;
 import com.example.kassa3.model.enums.Measure;
 import lombok.*;
-import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
@@ -16,15 +19,10 @@ import java.util.*;
 @ToString
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Item implements Serializable {
 
     private static final long serialVersionUID = 156977875169457L;
-
-    public Item() {
-        this.count = 0;
-        this.basePrice = BigDecimal.valueOf(0);
-        this.price = BigDecimal.valueOf(0);
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,20 +36,21 @@ public class Item implements Serializable {
     private String description;
 
     @Column(name = "base_price")
-    @Check(constraints = "base_price >= 0")
+    @Min(value = 0)
     @ToString.Exclude
-    private BigDecimal basePrice;
+    private BigDecimal basePrice = BigDecimal.valueOf(0);
 
     @Column(name = "price")
-    @Check(constraints = "price >= 0")
+    @Min(value = 0)
     @ToString.Exclude
-    private BigDecimal price;
+    private BigDecimal price = BigDecimal.valueOf(0);
 
     @Column(name = "count")
-    @Check(constraints = "count >= 0")
+    @Min(value = 0)
     @ToString.Exclude
-    private Integer count;
+    private BigDecimal count = BigDecimal.valueOf(0);
 
+    private boolean activate = true;
     private boolean isModerated;
     private boolean isModerateAccept;
     private String moderatedRejectReason;
@@ -62,7 +61,6 @@ public class Item implements Serializable {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
     @ToString.Exclude
     private Category category;
 
@@ -77,14 +75,13 @@ public class Item implements Serializable {
     @ToString.Exclude
     private String size;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "made_in_country_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Country madeInCountry;
 
     @ToString.Exclude
     @Column(name = "bar_code_number")
-    @Check(constraints = "bar_code_number >= 0")
+    @Min(value = 0)
     private Integer barCodeNumber;
 
     @ToString.Exclude
@@ -94,16 +91,45 @@ public class Item implements Serializable {
     @ToString.Exclude
     private Shop shop;
 
-    @OneToMany(
+    @OneToMany(mappedBy = "item",
             cascade = {CascadeType.MERGE,
                     CascadeType.PERSIST,
                     CascadeType.REFRESH,
                     CascadeType.DETACH},
-            orphanRemoval = true, fetch = FetchType.LAZY
+            orphanRemoval = false, fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "item_id")
     @ToString.Exclude
     private List<Image> images;
+
+    @OneToMany(mappedBy = "item",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = false, fetch = FetchType.LAZY
+    )
+    @ToString.Exclude
+    private List<ItemArrivalDetails> itemArrivalDetailsList;
+
+    @OneToMany(mappedBy = "item",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = false, fetch = FetchType.LAZY
+    )
+    @ToString.Exclude
+    private List<ItemSellDetails> itemSellDetailsList;
+
+    @OneToMany(mappedBy = "item",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = false, fetch = FetchType.LAZY
+    )
+    @ToString.Exclude
+    private List<ItemWriteOffDetails> itemWriteOffDetailsList;
 
     public void setImages(List<Image> images) {
         if (this.images == null) {
@@ -112,6 +138,36 @@ public class Item implements Serializable {
         this.images.clear();
         if (images != null) {
             this.images.addAll(images);
+        }
+    }
+
+    public void setItemArrivalDetailsList(List<ItemArrivalDetails> itemArrivalDetailsList) {
+        if (this.itemArrivalDetailsList == null) {
+            this.itemArrivalDetailsList = new ArrayList<>();
+        }
+        this.itemArrivalDetailsList.clear();
+        if (itemArrivalDetailsList != null) {
+            this.itemArrivalDetailsList.addAll(itemArrivalDetailsList);
+        }
+    }
+
+    public void setItemSellDetailsList(List<ItemSellDetails> itemSellDetailsList) {
+        if (this.itemSellDetailsList == null) {
+            this.itemSellDetailsList = new ArrayList<>();
+        }
+        this.itemSellDetailsList.clear();
+        if (itemSellDetailsList != null) {
+            this.itemSellDetailsList.addAll(itemSellDetailsList);
+        }
+    }
+
+    public void setItemWriteOffDetailsList(List<ItemWriteOffDetails> itemWriteOffDetailsList) {
+        if (this.itemWriteOffDetailsList == null) {
+            this.itemWriteOffDetailsList = new ArrayList<>();
+        }
+        this.itemWriteOffDetailsList.clear();
+        if (itemWriteOffDetailsList != null) {
+            this.itemWriteOffDetailsList.addAll(itemWriteOffDetailsList);
         }
     }
 }

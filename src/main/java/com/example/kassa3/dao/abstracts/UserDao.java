@@ -6,11 +6,17 @@ import com.example.kassa3.model.entity.User;
 public interface UserDao extends ReadWriteDao<User, Long>{
     User getUserByUsername(String username);
 
+    User getUserByEmail(String email);
+
     User getUserByPhone(Phone phone);
 
-    public boolean existsByUsername(String username);
+    boolean existsByUsername(String username);
 
-    public boolean existsByPhone(Phone phone);
+    boolean existsByEmail(String email);
+
+    boolean existsByPhone(Phone phone);
 
     User getUserByConfirmationToken(String token);
+
+
 }

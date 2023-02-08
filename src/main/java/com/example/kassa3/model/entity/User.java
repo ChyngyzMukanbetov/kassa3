@@ -1,9 +1,9 @@
 package com.example.kassa3.model.entity;
 
+import com.example.kassa3.model.document.*;
 import com.example.kassa3.model.enums.Gender;
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Check;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,21 +16,10 @@ import java.util.*;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class User {
 //    public class User implements UserDetails {
-
-    public User() {
-        this.secret = UUID.randomUUID().toString();
-        this.gender = Gender.UNKNOWN;
-        this.userRegistrationDate = LocalDate.now();Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        this.age = 0;
-        Shop shop = new Shop();
-        shop.setShopName("Основной");
-        Set<Shop> shops = new HashSet<>();
-        shops.add(shop);
-        this.setShops(shops);
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,15 +27,15 @@ public class User {
     @ToString.Exclude
     private Long id;
 
-    @Column(name = "email", unique = true)
+    @Column(nullable = false, unique = true)
     @ToString.Exclude
     private String email;
 
-    @Column(name = "username", unique = true)
-    @ToString.Exclude
+    @Column(nullable = false, unique = true)
     private String username;
 
     @ToString.Exclude
+    @Column(nullable = false)
     private String password;
 
     private LocalDate userRegistrationDate;
@@ -54,7 +43,7 @@ public class User {
     private String confirmationToken;
     private boolean confirm;
 
-    private boolean activate;
+    private boolean activate = true;
     private String activationCode;
     private LocalDate ActivateStartDate;
     private LocalDate ActivateExpiryDate;
@@ -63,13 +52,7 @@ public class User {
     private String secret;
     private boolean isIdentification;
 
-    @OneToOne(mappedBy = "user",
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST,
-                    CascadeType.DETACH,
-                    CascadeType.REFRESH},
-            orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, optional = false, orphanRemoval = true)
     @ToString.Exclude
     private Phone phone;
 
@@ -77,10 +60,6 @@ public class User {
     private String firstName;
     @ToString.Exclude
     private String lastName;
-
-    @ToString.Exclude
-    @Check(constraints = "age >= 0")
-    private Integer age;
 
     @Enumerated(EnumType.STRING)
     @ToString.Exclude
@@ -129,17 +108,6 @@ public class User {
             fetch = FetchType.LAZY, orphanRemoval = true
     )
     @ToString.Exclude
-    private List<ArrivalDoc> arrivalDocs;
-
-    @OneToMany(
-            mappedBy = "user",
-            cascade = {CascadeType.MERGE,
-                    CascadeType.PERSIST,
-                    CascadeType.REFRESH,
-                    CascadeType.DETACH},
-            fetch = FetchType.LAZY, orphanRemoval = true
-    )
-    @ToString.Exclude
     private Set<Category> categories;
 
     @OneToMany(
@@ -152,6 +120,83 @@ public class User {
     )
     @ToString.Exclude
     private Set<Partner> partners;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            fetch = FetchType.LAZY, orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<CreditDoc> creditDocList;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            fetch = FetchType.LAZY, orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<DebitDoc> debitDocList;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            fetch = FetchType.LAZY, orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<IncomeDoc> incomeDocList;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            fetch = FetchType.LAZY, orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<ItemArrivalDoc> itemArrivalDocList;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            fetch = FetchType.LAZY, orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<ItemSellDoc> itemSellDocList;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            fetch = FetchType.LAZY, orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<ItemWriteOffDoc> itemWriteOffDocList;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            fetch = FetchType.LAZY, orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<PaymentDoc> paymentDocList;
 
 //    @Override
 //    public boolean isAccountNonExpired() {
@@ -233,6 +278,76 @@ public class User {
         this.partners.clear();
         if (partners != null) {
             this.partners.addAll(partners);
+        }
+    }
+
+    public void setCreditDocList(List<CreditDoc> creditDocList) {
+        if (this.creditDocList == null) {
+            this.creditDocList = new ArrayList<>();
+        }
+        this.creditDocList.clear();
+        if (creditDocList != null) {
+            this.creditDocList.addAll(creditDocList);
+        }
+    }
+
+    public void setDebitDocList(List<DebitDoc> debitDocList) {
+        if (this.debitDocList == null) {
+            this.debitDocList = new ArrayList<>();
+        }
+        this.debitDocList.clear();
+        if (debitDocList != null) {
+            this.debitDocList.addAll(debitDocList);
+        }
+    }
+
+    public void setIncomeDocList(List<IncomeDoc> incomeDocList) {
+        if (this.incomeDocList == null) {
+            this.incomeDocList = new ArrayList<>();
+        }
+        this.incomeDocList.clear();
+        if (incomeDocList != null) {
+            this.incomeDocList.addAll(incomeDocList);
+        }
+    }
+
+    public void setItemArrivalDocList(List<ItemArrivalDoc> itemArrivalDocList) {
+        if (this.itemArrivalDocList == null) {
+            this.itemArrivalDocList = new ArrayList<>();
+        }
+        this.itemArrivalDocList.clear();
+        if (itemArrivalDocList != null) {
+            this.itemArrivalDocList.addAll(itemArrivalDocList);
+        }
+    }
+
+    public void setItemSellDocList(List<ItemSellDoc> itemSellDocList) {
+        if (this.itemSellDocList == null) {
+            this.itemSellDocList = new ArrayList<>();
+        }
+        this.itemSellDocList.clear();
+        if (itemSellDocList != null) {
+            this.itemSellDocList.addAll(itemSellDocList);
+        }
+    }
+
+    public void setItemWriteOffDocList(List<ItemWriteOffDoc> itemWriteOffDocList) {
+        if (this.itemWriteOffDocList == null) {
+            this.itemWriteOffDocList = new ArrayList<>();
+        }
+        this.itemWriteOffDocList.clear();
+        if (itemWriteOffDocList != null) {
+            this.itemWriteOffDocList.addAll(itemWriteOffDocList);
+        }
+    }
+
+    public void setPaymentDocList(List<PaymentDoc> paymentDocList) {
+        if (this.paymentDocList == null) {
+            this.paymentDocList = new ArrayList<>();
+        }
+        this.paymentDocList.clear();
+        if (paymentDocList != null) {
+            this.paymentDocList.addAll(paymentDocList);
         }
     }
 }

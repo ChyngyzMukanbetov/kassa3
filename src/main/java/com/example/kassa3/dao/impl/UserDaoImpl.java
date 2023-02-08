@@ -24,9 +24,22 @@ public class UserDaoImpl extends ReadWriteDaoImpl<User, Long> implements UserDao
                 .setParameter("phoneCode", phone.getPhoneCode()).setParameter("phoneNumber", phone.getPhoneNumber()).getSingleResult();
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                .setParameter("email", email)
+                .getSingleResult();
+    }
+
     public boolean existsByUsername(String username) {
         return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class)
                 .setParameter("username", username)
+                .getSingleResult() > 0;
+    }
+
+    public boolean existsByEmail(String email) {
+        return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.email = :email", Long.class)
+                .setParameter("email", email)
                 .getSingleResult() > 0;
     }
 

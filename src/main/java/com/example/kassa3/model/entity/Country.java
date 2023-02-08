@@ -33,6 +33,15 @@ public class Country {
     @ToString.Exclude
     private List<City> cities;
 
+    @OneToMany(mappedBy = "madeInCountry",
+            cascade = {CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = false, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Item> items;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,6 +62,16 @@ public class Country {
         this.cities.clear();
         if (cities != null) {
             this.cities.addAll(cities);
+        }
+    }
+
+    public void setItems(List<Item> items) {
+        if (this.items == null) {
+            this.items = new ArrayList<>();
+        }
+        this.items.clear();
+        if (items != null) {
+            this.items.addAll(items);
         }
     }
 }

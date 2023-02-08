@@ -21,19 +21,19 @@ public class Image {
 
     @Lob
     @Column (columnDefinition = "longblob")
+    @ToString.Exclude
     private byte[] picture;
 
-    private Boolean isMain;
+    private boolean activate = true;
 
     public Image(Long id, byte[] picture) {
         this.id = id;
         this.picture = picture;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shop_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Shop shop;
+    private Item item;
 
     @Override
     public boolean equals(Object o) {

@@ -15,10 +15,10 @@ import java.math.BigDecimal;
         property = "id", scope = Long.class)
 public class ItemDto {
     private Long id;
-    private String name;
+    private String itemName;
     private BigDecimal basePrice;
     private BigDecimal price;
-    private int count;
+    private BigDecimal count;
     private Long categoryId;
     private Long userId;
     private Long shopId;

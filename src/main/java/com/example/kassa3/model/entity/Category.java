@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +23,8 @@ public class Category {
 
     @Column(name = "name")
     private String name;
+
+    private boolean activate = true;
 
     @OneToMany(mappedBy = "category",
             cascade = {CascadeType.PERSIST,
@@ -48,5 +51,15 @@ public class Category {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public void setItems(List<Item> items) {
+        if (this.items == null) {
+            this.items = new ArrayList<>();
+        }
+        this.items.clear();
+        if (items != null) {
+            this.items.addAll(items);
+        }
     }
 }

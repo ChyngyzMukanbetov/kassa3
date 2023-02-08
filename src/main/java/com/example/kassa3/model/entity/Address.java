@@ -20,17 +20,17 @@ public class Address {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
+    private boolean activate = true;
+
     @Column(name = "street", nullable = false, unique = true)
     private String street;
 
     @Column(name = "house", nullable = false, unique = true)
     private String house;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private City city;
-
 
     @OneToMany(
             mappedBy = "address",
