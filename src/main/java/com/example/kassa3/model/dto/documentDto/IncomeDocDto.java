@@ -10,9 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -33,23 +31,31 @@ public class IncomeDocDto {
     private LocalDate documentData;
 
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    @Past(message = "Дата выручки не может быть в будущем")
     private LocalDate incomeData;
 
-    @Pattern(regexp = "^(true|false)$", message = "isNonCash field allowed input: true or false")
-    private boolean isNonCash;
+    @NotNull(message = "isNonCash field is required and must be either true or false")
+    private Boolean nonCash;
 
-    @NotBlank
-    @Valid
-    private PartnerDto partner;
+    @NotNull
+    @Min(value = 0, message = "partnerId can not be negative")
+    private Long partnerId;
+    private String partnerName;
 
-    @Pattern(regexp = "^(true|false)$", message = "activate field allowed input: true or false")
-    private boolean activate;
+    @Size(max=250, message = "comment should be max 250 letters")
+    private String comment;
 
-    @Valid
-    @NotBlank
-    private DebitDocDto debitDoc;
-    @NotBlank
+    @NotNull(message = "activate field is required and must be either true or false")
+    private Boolean activate;
+
+    @Min(value = 1)
+    private Long debitDocId;
+
+    @NotNull(message = "shopId id required")
+    @Min(value = 1)
     private Long shopId;
-    @NotBlank
+
+    @NotNull(message = "userId id required")
+    @Min(value = 1)
     private Long userId;
 }

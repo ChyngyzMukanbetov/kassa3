@@ -22,8 +22,10 @@ public class ItemWriteOffDoc {
     @Column(nullable = false, unique = true)
     private Long id;
 
+    @Builder.Default
     private boolean activate = true;
 
+    @Builder.Default
     private LocalDate documentData  = LocalDate.now();
 
     private LocalDate itemWriteOffData;
@@ -40,10 +42,10 @@ public class ItemWriteOffDoc {
     )
     private List<ItemWriteOffDetails> itemWriteOffDetailsList;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
     public void setItemWriteOffDetailsList(List<ItemWriteOffDetails> itemWriteOffDetailsList) {

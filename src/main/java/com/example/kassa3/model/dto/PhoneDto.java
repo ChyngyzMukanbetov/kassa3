@@ -1,6 +1,6 @@
 package com.example.kassa3.model.dto;
 
-import com.example.kassa3.util.validation.PhoneCodeCodeValidation;
+import com.example.kassa3.util.validation.enumValidation.PhoneCodeCodeValidation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

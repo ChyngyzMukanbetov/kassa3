@@ -15,6 +15,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
+@Table(uniqueConstraints= @UniqueConstraint(columnNames={"name", "user_id"}))
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,20 +25,21 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    @Builder.Default
     private boolean activate = true;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "category",
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE,
                     CascadeType.REFRESH,
                     CascadeType.DETACH},
-            orphanRemoval = false, fetch = FetchType.LAZY
+            fetch = FetchType.LAZY
     )
-    @ToString.Exclude
     private List<Item> items;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private User user;
 
     @Override

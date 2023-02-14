@@ -20,13 +20,13 @@ import java.util.List;
 @RequestMapping("/api/items")
 public class ItemRestController {
 
-    private ItemService itemService;
-    private ItemConverter itemConverter;
-    private ItemCreateConverter itemCreateConverter;
-    private UserService userService;
-    private ShopService shopService;
-    private CategoryService categoryService;
-    private CountryService countryService;
+    private final  ItemService itemService;
+    private final  ItemConverter itemConverter;
+    private final ItemCreateConverter itemCreateConverter;
+    private final UserService userService;
+    private final ShopService shopService;
+    private final CategoryService categoryService;
+    private final CountryService countryService;
 
     //    Все товары (потом добавить получение юзером только своих товаров)
     @GetMapping("/getAll")
@@ -47,6 +47,11 @@ public class ItemRestController {
     @GetMapping("/getAllDeactivate")
     public List<ItemDto> getAllDeactivateItems() {
         return itemConverter.toDTOList(itemService.findAllDeactivate());
+    }
+
+    @GetMapping("/getActivateItemsByName/{itemName}")
+    public List<ItemDto> getActivateItemsByName(@PathVariable String itemName) {
+        return itemConverter.toDTOList(itemService.findActivateItemsByItemName(itemName));
     }
 
     @PostMapping("/create")
@@ -79,14 +84,18 @@ public class ItemRestController {
             return new ResponseEntity<>("Shop не существует", HttpStatus.CONFLICT);
         }
 
-        if (!categoryService.existsById(itemCreateDto.getCategoryId())) {
-            return new ResponseEntity<>("Category не существует", HttpStatus.CONFLICT);
-        } else if (!categoryService.findById(itemCreateDto.getCategoryId()).getUser().getId().equals(itemCreateDto.getUserId())) {
-            return new ResponseEntity<>("указана Category другого пользователя", HttpStatus.CONFLICT);
+        if (itemCreateDto.getCategoryId() != null) {
+            if (!categoryService.existsById(itemCreateDto.getCategoryId())) {
+                return new ResponseEntity<>("Category не существует", HttpStatus.CONFLICT);
+            } else if (!categoryService.findById(itemCreateDto.getCategoryId()).getUser().getId().equals(itemCreateDto.getUserId())) {
+                return new ResponseEntity<>("указана Category другого пользователя", HttpStatus.CONFLICT);
+            }
         }
 
-        if (!countryService.existsById(itemCreateDto.getMadeInCountryId())) {
-            return new ResponseEntity<>("Country не существует", HttpStatus.CONFLICT);
+        if (itemCreateDto.getMadeInCountryId() != null) {
+            if (!countryService.existsById(itemCreateDto.getMadeInCountryId())) {
+                return new ResponseEntity<>("Country не существует", HttpStatus.CONFLICT);
+            }
         }
 
         // save user to the database
@@ -125,14 +134,18 @@ public class ItemRestController {
             return new ResponseEntity<>("Shop не существует", HttpStatus.CONFLICT);
         }
 
-        if (!categoryService.existsById(itemCreateDto.getCategoryId())) {
-            return new ResponseEntity<>("Category не существует", HttpStatus.CONFLICT);
-        } else if (!categoryService.findById(itemCreateDto.getCategoryId()).getUser().getId().equals(itemCreateDto.getUserId())) {
-            return new ResponseEntity<>("указана Category другого пользователя", HttpStatus.CONFLICT);
+        if (itemCreateDto.getCategoryId() != null) {
+            if (!categoryService.existsById(itemCreateDto.getCategoryId())) {
+                return new ResponseEntity<>("Category не существует", HttpStatus.CONFLICT);
+            } else if (!categoryService.findById(itemCreateDto.getCategoryId()).getUser().getId().equals(itemCreateDto.getUserId())) {
+                return new ResponseEntity<>("указана Category другого пользователя", HttpStatus.CONFLICT);
+            }
         }
 
-        if (!countryService.existsById(itemCreateDto.getMadeInCountryId())) {
-            return new ResponseEntity<>("Country не существует", HttpStatus.CONFLICT);
+        if (itemCreateDto.getMadeInCountryId() != null) {
+            if (!countryService.existsById(itemCreateDto.getMadeInCountryId())) {
+                return new ResponseEntity<>("Country не существует", HttpStatus.CONFLICT);
+            }
         }
 
         // save user to the database
@@ -162,5 +175,14 @@ public class ItemRestController {
         itemService.update(item);
         return new ResponseEntity<>("Item успешно восстановлен", HttpStatus.OK);
     }
+
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
+//        if (!itemService.existsById(id)) {
+//            return new ResponseEntity<>("Неверный id товара", HttpStatus.BAD_REQUEST);
+//        }
+//        itemService.delete(itemService.findById(id));
+//        return new ResponseEntity<>("Item успешно удален", HttpStatus.OK);
+//    }
 
 }

@@ -24,6 +24,7 @@ public class Image {
     @ToString.Exclude
     private byte[] picture;
 
+    @Builder.Default
     private boolean activate = true;
 
     public Image(Long id, byte[] picture) {
@@ -31,7 +32,11 @@ public class Image {
         this.picture = picture;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "image", fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH,
+            CascadeType.DETACH})
     @ToString.Exclude
     private Item item;
 

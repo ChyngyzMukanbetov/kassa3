@@ -30,6 +30,8 @@ public class Shop implements Serializable {
     private boolean isModerateAccept;
     private String moderatedRejectReason;
     private boolean isPretendedToBeDeleted;
+
+    @Builder.Default
     private boolean activate = true;
 
     @OneToMany(

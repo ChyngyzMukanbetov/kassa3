@@ -10,7 +10,8 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, builder = @Builder(disableBuilder = true), uses = {UserConverter.class, ShopResolver.class, AddressConverter.class, ItemConverter.class})
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, builder = @Builder(disableBuilder = true),
+        uses = {UserConverter.class, ShopResolver.class, AddressConverter.class, ItemConverter.class})
 public interface ShopConverter {
     Shop toModel(Long shopId);
 

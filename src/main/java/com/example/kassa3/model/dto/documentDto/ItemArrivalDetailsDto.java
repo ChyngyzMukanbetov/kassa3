@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
@@ -17,36 +18,43 @@ public class ItemArrivalDetailsDto {
 
     private Long id;
 
-    private boolean activate;
-
     @NotNull
-    @Min(value = 0L, message = "The value must be positive")
+    @Min(value = 0, message = "The basePrice must be positive")
     private BigDecimal basePrice;
 
-    boolean useBasePriceWAM;
+    private Boolean useBasePriceWAM;
 
     @NotNull
-    @Min(value = 0L, message = "The value must be positive")
+    @Min(value = 0, message = "The price must be positive")
     private BigDecimal price;
 
-    boolean usePriceWAM;
+    private Boolean usePriceWAM;
 
     @NotNull
-    @Min(value = 0L, message = "The value must be positive")
+    @Min(value = 0, message = "The count must be positive")
     @ToString.Exclude
     private BigDecimal count;
 
+    @NotNull
+    @Min(value = 0, message = "The sum must be positive")
+    @ToString.Exclude
     private BigDecimal sum;
 
-    private boolean isNonCash;
-    private boolean isOnCredit;
+    private Boolean nonCash;
 
+    @NotNull(message = "onCredit should be true or false and can not be null")
+    private Boolean onCredit;
+
+    @Min(value = 0, message = "The sumOfCredit must be positive")
+    @ToString.Exclude
     private BigDecimal sumOfCredit;
 
     @NotNull(message = "itemId should not be null")
+    @Min(value = 1)
     private Long itemId;
 
-    private ItemArrivalDocDto itemArrivalDoc;
+    @Min(value = 1)
+    private Long itemArrivalDocId; //игнорим при toModel
 }
 
 

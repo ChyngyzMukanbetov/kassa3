@@ -43,6 +43,7 @@ public class User {
     private String confirmationToken;
     private boolean confirm;
 
+    @Builder.Default
     private boolean activate = true;
     private String activationCode;
     private LocalDate ActivateStartDate;

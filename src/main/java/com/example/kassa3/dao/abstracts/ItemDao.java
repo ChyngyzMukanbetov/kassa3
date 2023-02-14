@@ -12,4 +12,6 @@ public interface ItemDao extends ReadWriteDao<Item, Long> {
     List<Item> findAllDeactivate();
 
     List<Item> findAllActivate();
+
+    List<Item> findActivateItemsByItemName(String itemName);
 }

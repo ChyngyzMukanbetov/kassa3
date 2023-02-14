@@ -24,8 +24,10 @@ public class ItemArrivalDoc {
     @Column(nullable = false, unique = true)
     private Long id;
 
+    @Builder.Default
     private boolean activate = true;
 
+    @Builder.Default
     private LocalDate documentData = LocalDate.now();
 
     private LocalDate itemArrivalData;
@@ -59,11 +61,11 @@ public class ItemArrivalDoc {
     private Partner partner;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
     public void setItemArrivalDetailsList(List<ItemArrivalDetails> itemArrivalDetailsList) {
@@ -73,6 +75,14 @@ public class ItemArrivalDoc {
         this.itemArrivalDetailsList.clear();
         if (itemArrivalDetailsList != null) {
             this.itemArrivalDetailsList.addAll(itemArrivalDetailsList);
+            for (ItemArrivalDetails itemArrivalDetails : itemArrivalDetailsList) {
+                itemArrivalDetails.setItemArrivalDoc(this);
+            }
         }
+    }
+
+    public void setCreditDoc(CreditDoc creditDoc) {
+        creditDoc.setItemArrivalDoc(this);
+        this.creditDoc = creditDoc;
     }
 }

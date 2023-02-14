@@ -12,9 +12,9 @@ public class ImageDaoImpl extends ReadWriteDaoImpl<Image, Long> implements Image
     @Override
     public List<Image> getImagesByItemId(Long itemId) {
         return em.createQuery(
-                        "SELECT NEW com.amr.project.model.entity.Image(" +
+                        "SELECT NEW com.example.kassa3.model.entity.Image(" +
                                 "i.id, i.picture)" +
-                                "FROM Item s JOIN s.images i WHERE s.id = :itemId", Image.class)
+                                "FROM Item s JOIN s.image i WHERE s.id = :itemId", Image.class)
                 .setParameter("itemId", itemId).getResultList();
     }
 }

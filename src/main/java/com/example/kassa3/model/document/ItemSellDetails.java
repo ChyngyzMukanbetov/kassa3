@@ -23,37 +23,48 @@ public class ItemSellDetails {
     @Column(nullable = false, unique = true)
     private Long id;
 
+    @Builder.Default
     private boolean activate = true;
 
     //цена закупки товара
     @Min(value = 0)
+    @Builder.Default
     private BigDecimal basePrice = BigDecimal.valueOf(0);
 
     @Min(value = 0)
+    @Builder.Default
     private BigDecimal price = BigDecimal.valueOf(0);
 
     @Min(value = 0)
+    @Builder.Default
     private BigDecimal count = BigDecimal.valueOf(0);
 
+    @Builder.Default
+    @Min(value = 0)
     private BigDecimal sum = BigDecimal.valueOf(0);
 
     @Min(value = 0)
+    @Builder.Default
     private BigDecimal discountSum = BigDecimal.valueOf(0);
 
+    @Builder.Default
+    @Min(value = 0)
     private BigDecimal totalSum = BigDecimal.valueOf(0);
 
-    private boolean isNonCash = false;
-    private boolean isOnDebt = false;
+    @Builder.Default
+    private boolean nonCash = false;
+
+    @Builder.Default
+    private boolean onDebt = false;
 
     @Min(value = 0)
+    @Builder.Default
     private BigDecimal sumOfDebt = BigDecimal.valueOf(0);
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Item item;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private ItemSellDoc itemSellDoc;
 
     public void updateSum() {

@@ -16,4 +16,6 @@ public interface ItemService extends ReadWriteService<Item, Long> {
     List<Item> findAllDeactivate();
 
     List<Item> findAllActivate();
+
+    List<Item> findActivateItemsByItemName(String itemName);
 }

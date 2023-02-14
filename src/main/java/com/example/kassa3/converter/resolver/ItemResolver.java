@@ -15,6 +15,17 @@ public class ItemResolver {
     public final ItemService itemService;
 
     @ObjectFactory
+    public Item resolve(Long id, @TargetType Class<Item> type) {
+        Item item;
+        if (id == null) {
+            return null;
+        } else {
+            item = itemService.findById(id);
+        }
+        return item;
+    }
+
+    @ObjectFactory
     public Item resolve(ItemDto dto, @TargetType Class<Item> type) {
         Item item;
         if (dto == null) {

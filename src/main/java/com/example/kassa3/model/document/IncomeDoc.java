@@ -26,26 +26,31 @@ public class IncomeDoc {
     private Long id;
 
     @Min(value = 0)
+    @Builder.Default
     private BigDecimal sum = BigDecimal.valueOf(0);
 
+    @Builder.Default
     private LocalDate documentData  = LocalDate.now();
 
     private LocalDate incomeData;
 
-    private boolean isNonCash = false;
+    @Builder.Default
+    private boolean nonCash = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Partner partner;
 
+    private String comment;
+
+    @Builder.Default
     private boolean activate = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private DebitDoc debitDoc;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 }

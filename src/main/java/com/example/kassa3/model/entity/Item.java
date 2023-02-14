@@ -20,9 +20,10 @@ import java.util.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(uniqueConstraints= @UniqueConstraint(columnNames={"item_name", "user_id"}))
 public class Item implements Serializable {
 
-    private static final long serialVersionUID = 156977875169457L;
+    private static final long serialVersionUID = 20230212L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,18 +39,22 @@ public class Item implements Serializable {
     @Column(name = "base_price")
     @Min(value = 0)
     @ToString.Exclude
+    @Builder.Default
     private BigDecimal basePrice = BigDecimal.valueOf(0);
 
     @Column(name = "price")
     @Min(value = 0)
     @ToString.Exclude
+    @Builder.Default
     private BigDecimal price = BigDecimal.valueOf(0);
 
     @Column(name = "count")
     @Min(value = 0)
     @ToString.Exclude
+    @Builder.Default
     private BigDecimal count = BigDecimal.valueOf(0);
 
+    @Builder.Default
     private boolean activate = true;
     private boolean isModerated;
     private boolean isModerateAccept;
@@ -91,15 +96,13 @@ public class Item implements Serializable {
     @ToString.Exclude
     private Shop shop;
 
-    @OneToMany(mappedBy = "item",
+    @OneToOne(orphanRemoval = true, fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE,
                     CascadeType.PERSIST,
                     CascadeType.REFRESH,
-                    CascadeType.DETACH},
-            orphanRemoval = false, fetch = FetchType.LAZY
-    )
+                    CascadeType.DETACH})
     @ToString.Exclude
-    private List<Image> images;
+    private Image image;
 
     @OneToMany(mappedBy = "item",
             cascade = {CascadeType.MERGE,
@@ -130,16 +133,6 @@ public class Item implements Serializable {
     )
     @ToString.Exclude
     private List<ItemWriteOffDetails> itemWriteOffDetailsList;
-
-    public void setImages(List<Image> images) {
-        if (this.images == null) {
-            this.images = new ArrayList<>();
-        }
-        this.images.clear();
-        if (images != null) {
-            this.images.addAll(images);
-        }
-    }
 
     public void setItemArrivalDetailsList(List<ItemArrivalDetails> itemArrivalDetailsList) {
         if (this.itemArrivalDetailsList == null) {

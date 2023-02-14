@@ -1,6 +1,5 @@
 package com.example.kassa3.service.impl;
 
-import com.example.kassa3.dao.abstracts.ImageDao;
 import com.example.kassa3.dao.abstracts.ItemDao;
 import com.example.kassa3.model.entity.Item;
 import com.example.kassa3.model.entity.User;
@@ -14,12 +13,10 @@ import java.util.List;
 public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements ItemService {
 
     private final ItemDao itemDao;
-    private final ImageDao imageDao;
 
-    public ItemServiceImpl(ItemDao itemDao, ImageDao imageDao) {
+    public ItemServiceImpl(ItemDao itemDao) {
         super(itemDao);
         this.itemDao = itemDao;
-        this.imageDao = imageDao;
     }
 
     @Transactional
@@ -34,8 +31,14 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
         return itemDao.findAllDeactivate();
     }
 
+    @Transactional
     @Override
     public List<Item> findAllActivate() {
         return itemDao.findAllActivate();
+    }
+
+    @Override
+    public List<Item> findActivateItemsByItemName(String itemName) {
+        return itemDao.findActivateItemsByItemName(itemName);
     }
 }

@@ -24,9 +24,13 @@ public class DebitDoc {
     @Column(nullable = false, unique = true)
     private Long id;
 
+    @Builder.Default
     private boolean activate = true;
-    private boolean isReturned = false;
 
+    @Builder.Default
+    private boolean returned = false;
+
+    @Builder.Default
     private LocalDate documentData = LocalDate.now();
 
     private LocalDate debitData;
@@ -37,11 +41,10 @@ public class DebitDoc {
 
     private String comment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Partner partner;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private ItemSellDoc itemSellDoc;
 
     @OneToMany(
@@ -54,10 +57,10 @@ public class DebitDoc {
     )
     private List<IncomeDoc> incomeDocList;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
     public void setIncomeDocList(List<IncomeDoc> incomeDocList) {

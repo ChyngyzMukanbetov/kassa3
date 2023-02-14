@@ -17,11 +17,18 @@ public class ItemDaoImpl extends ReadWriteDaoImpl<Item, Long> implements ItemDao
 
     @Override
     public List<Item> findAllDeactivate() {
-        return em.createQuery("select u from Item u where u.activate=false", Item.class).getResultList();
+        return em.createQuery("select i from Item i where i.activate=false", Item.class).getResultList();
     }
 
     @Override
     public List<Item> findAllActivate() {
-        return em.createQuery("select u from Item u where u.activate=true", Item.class).getResultList();
+        return em.createQuery("select i from Item i where i.activate=true", Item.class).getResultList();
+    }
+
+    @Override
+    public List<Item> findActivateItemsByItemName(String itemName) {
+        return em.createQuery("SELECT i FROM Item i WHERE i.activate = true AND UPPER(i.itemName) LIKE UPPER(:itemName)", Item.class)
+                .setParameter("itemName", "%" + itemName + "%")
+                .getResultList();
     }
 }

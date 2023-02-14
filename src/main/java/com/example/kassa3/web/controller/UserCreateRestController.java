@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequestMapping("/api/registration")
 public class UserCreateRestController {
 
-    private EmailService emailService;
+    private final EmailService emailService;
     private final UserService userService;
     private final UserCreateConverter userCreateConverter;
 
@@ -48,8 +48,10 @@ public class UserCreateRestController {
             return new ResponseEntity<>("User с таким email уже существует", HttpStatus.CONFLICT);
         }
         // save user to the database
-        userService.persist(user);
+//        userService.persist(user);
         // generate a confirmation token
+
+
         String confirmationToken = UUID.randomUUID().toString();
         user.setConfirmationToken(confirmationToken);
 

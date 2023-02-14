@@ -16,6 +16,7 @@ public interface UserConverter {
     User toModel(Long userId);
 
     @Mapping(source = "phone", target = "phoneDto")
+    @Mapping(source = "gender.rusName", target = "genderName")
     UserDto toDTO(User user);
 
     List<UserDto> toDTOList(List<User> userList);

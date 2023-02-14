@@ -24,8 +24,10 @@ public class ItemSellDoc {
     @Column(nullable = false, unique = true)
     private Long id;
 
+    @Builder.Default
     private boolean activate = true;
 
+    @Builder.Default
     private LocalDate documentData  = LocalDate.now();
 
     private LocalDate itemSellData;
@@ -55,12 +57,10 @@ public class ItemSellDoc {
     )
     private DebitDoc debitDoc;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
     public void setItemSellDetailsList(List<ItemSellDetails> itemSellDetailsList) {

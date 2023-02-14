@@ -25,9 +25,13 @@ public class CreditDoc {
     @Column(nullable = false, unique = true)
     private Long id;
 
+    @Builder.Default
     private boolean activate = true;
-    private boolean isReturned = false;
 
+    @Builder.Default
+    private boolean returned = false;
+
+    @Builder.Default
     private LocalDate documentData = LocalDate.now();
 
     private LocalDate creditData;
@@ -38,11 +42,10 @@ public class CreditDoc {
 
     private String comment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Partner partner;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private ItemArrivalDoc itemArrivalDoc;
 
     @OneToMany(
@@ -55,10 +58,10 @@ public class CreditDoc {
     )
     private List<PaymentDoc> paymentDocList;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
     public void setPaymentDocList(List<PaymentDoc> paymentDocList) {

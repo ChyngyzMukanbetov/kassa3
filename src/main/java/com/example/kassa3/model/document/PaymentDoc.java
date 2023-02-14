@@ -25,29 +25,32 @@ public class PaymentDoc {
     @Column(nullable = false, unique = true)
     private Long id;
 
+    @Builder.Default
     private boolean activate = true;
 
     @Min(value = 0)
+    @Builder.Default
     private BigDecimal sum = BigDecimal.valueOf(0);
 
+    @Builder.Default
     private LocalDate documentData  = LocalDate.now();
 
     private LocalDate paymentData;
 
-    private boolean isNonCash = false;
+    @Builder.Default
+    private boolean nonCash = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Partner partner;
 
     private String comment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private CreditDoc creditDoc;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 }

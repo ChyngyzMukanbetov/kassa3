@@ -1,6 +1,5 @@
 package com.example.kassa3.model.dto.documentDto;
 
-import com.example.kassa3.model.dto.PartnerDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -25,39 +24,43 @@ public class CreditDocDto {
 
     private Long id;
 
-    @Pattern(regexp = "^(true|false)$", message = "activate field allowed input: true or false")
-    private boolean activate;
-
-    @Pattern(regexp = "^(true|false)$", message = "isReturned field allowed input: true or false")
-    private boolean isReturned;
+    private Boolean returned;
 
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate documentData;
 
-    @NotBlank
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    @Past(message = "Дата получения в долг не может быть в будущем")
     private LocalDate creditData;
 
+    @NotNull(message = "returnDate is required")
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate returnDate;
 
-    @NotBlank
+    @NotNull
     @Min(value = 0, message = "sumOfCredit can not be negative")
     private BigDecimal sumOfCredit;
 
     @Size(max=250, message = "comment should be max 250 letters")
     private String comment;
 
-    @NotBlank
-    @Valid
-    private PartnerDto partner;
-    @Valid
-    private ItemArrivalDocDto itemArrivalDoc;
+    @NotNull
+    @Min(value = 0, message = "partnerId can not be negative")
+    private Long partnerId;
+    private String partnerName;
+
+    @Min(value = 1)
+    private Long itemArrivalDocId;
+
     @Valid
     private List<PaymentDocDto> paymentDocList;
-    @NotBlank
-    private Long shopID;
-    @NotBlank
+
+    @NotNull(message = "shopID id required")
+    @Min(value = 1)
+    private Long shopId;
+
+    @NotNull(message = "userId id required")
+    @Min(value = 1)
     private Long userId;
 }
 

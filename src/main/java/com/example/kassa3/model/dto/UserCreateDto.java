@@ -33,7 +33,8 @@ public class UserCreateDto {
     private String firstName;
     @Size(max=30, message = "lastName should be max 30 letters")
     private String lastName;
-    private Gender gender;
+    @Size(max=10, message = "genderName should be max 10 letters")
+    private String genderName;
     @Past(message = "can't be in the future")
     private LocalDate birthday;
 }

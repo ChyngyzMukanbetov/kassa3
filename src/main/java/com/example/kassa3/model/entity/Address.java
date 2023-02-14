@@ -20,6 +20,7 @@ public class Address {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
+    @Builder.Default
     private boolean activate = true;
 
     @Column(name = "street", nullable = false, unique = true)

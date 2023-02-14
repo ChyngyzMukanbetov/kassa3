@@ -24,6 +24,8 @@ public class Partner {
 
     private boolean isProvider;
     private boolean isBuyer;
+
+    @Builder.Default
     private boolean activate = true;
 
     @Column(unique = true, nullable = false)
