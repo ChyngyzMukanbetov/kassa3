@@ -5,6 +5,7 @@ import com.example.kassa3.model.entity.Phone;
 import com.example.kassa3.model.enums.PhoneCode;
 import com.example.kassa3.service.abstracts.PhoneService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PhoneServiceImpl extends ReadWriteServiceImpl<Phone, Long> implements PhoneService {
@@ -17,7 +18,7 @@ public class PhoneServiceImpl extends ReadWriteServiceImpl<Phone, Long> implemen
         this.phoneDao = phoneDao;
     }
 
-    @Override
+    @Transactional(readOnly = true)
     public Phone findByCodeAndNumber(PhoneCode phoneCode, String number) {
         return phoneDao.findByCodeAndNumber(phoneCode, number);
     }

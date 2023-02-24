@@ -18,13 +18,13 @@ public class PartnerServiceImpl extends ReadWriteServiceImpl<Partner, Long> impl
         this.partnerDao = partnerDao;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<Partner> findAllDeactivate() {
         return partnerDao.findAllDeactivate();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<Partner> findAllActivate() {
         return partnerDao.findAllActivate();

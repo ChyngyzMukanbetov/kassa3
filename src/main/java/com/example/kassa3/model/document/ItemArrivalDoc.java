@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Builder
 @AllArgsConstructor
 public class ItemArrivalDoc {
@@ -25,12 +26,16 @@ public class ItemArrivalDoc {
     private Long id;
 
     @Builder.Default
-    private boolean activate = true;
+    private final String docCode = "D12";
 
     @Builder.Default
-    private LocalDate documentData = LocalDate.now();
+    private boolean activate = true;
+    private LocalDate deactivateDate;
 
-    private LocalDate itemArrivalData;
+    @Builder.Default
+    private LocalDateTime documentDateTime = LocalDateTime.now();
+
+    private LocalDate itemArrivalDate;
 
     private String comment;
 
@@ -82,7 +87,9 @@ public class ItemArrivalDoc {
     }
 
     public void setCreditDoc(CreditDoc creditDoc) {
-        creditDoc.setItemArrivalDoc(this);
+        if (creditDoc != null) {
+            creditDoc.setItemArrivalDoc(this);
+        }
         this.creditDoc = creditDoc;
     }
 }

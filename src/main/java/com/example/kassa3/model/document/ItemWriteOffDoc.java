@@ -6,13 +6,14 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Builder
 @AllArgsConstructor
 public class ItemWriteOffDoc {
@@ -23,12 +24,16 @@ public class ItemWriteOffDoc {
     private Long id;
 
     @Builder.Default
-    private boolean activate = true;
+    private final String docCode = "D01";
 
     @Builder.Default
-    private LocalDate documentData  = LocalDate.now();
+    private boolean activate = true;
+    private LocalDate deactivateDate;
 
-    private LocalDate itemWriteOffData;
+    @Builder.Default
+    private LocalDateTime documentDateTime = LocalDateTime.now();
+
+    private LocalDate itemWriteOffDate;
 
     private String comment;
 

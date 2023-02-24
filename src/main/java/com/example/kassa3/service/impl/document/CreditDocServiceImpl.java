@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CreditDocServiceImpl extends ReadWriteServiceImpl<CreditDoc, Long> implements CreditDocService {
+
+    private final CreditDocDao creditDocDao;
+
     public CreditDocServiceImpl(CreditDocDao creditDocDao) {
         super(creditDocDao);
+        this.creditDocDao = creditDocDao;
     }
 }

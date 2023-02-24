@@ -19,7 +19,7 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements
         this.shopDao = shopDao;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<Shop> findAllActivateByUser(User user) {
         return shopDao.findAllActivateByUser(user);

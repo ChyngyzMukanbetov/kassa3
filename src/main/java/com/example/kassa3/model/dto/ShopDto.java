@@ -14,7 +14,8 @@ import java.util.List;
 public class ShopDto {
     private Long id;
     private String shopName;
-    private List<ItemDto> itemDtoList;
+    private List<ItemResponseDto> itemResponseDtoList;
     private Long userId;
     private AddressDto address;
+    private BalanceDto balance;
 }

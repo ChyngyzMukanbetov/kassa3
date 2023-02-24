@@ -34,6 +34,15 @@ public class Shop implements Serializable {
     @Builder.Default
     private boolean activate = true;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "shop",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.DETACH,
+                    CascadeType.REFRESH},
+            optional = false, orphanRemoval = true)
+    @ToString.Exclude
+    private Balance balance;
+
     @OneToMany(
             mappedBy = "shop",
             cascade = {CascadeType.MERGE,
@@ -85,7 +94,7 @@ public class Shop implements Serializable {
             fetch = FetchType.LAZY
     )
     @ToString.Exclude
-    private List<IncomeDoc> incomeDocList;
+    private List<DebitIncomeDoc> debitIncomeDocList;
 
     @OneToMany(
             mappedBy = "shop",
@@ -129,7 +138,52 @@ public class Shop implements Serializable {
             fetch = FetchType.LAZY
     )
     @ToString.Exclude
-    private List<PaymentDoc> paymentDocList;
+    private List<CreditPaymentDoc> creditPaymentDocList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "shop",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdditionalCreditDoc> additionalCreditDocList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "shop",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdditionalPaymentDoc> additionalPaymentDocList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "shop",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdditionalDebitDoc> additionalDebitDocList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "shop",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdditionalIncomeDoc> additionalIncomeDocList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "shop",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<InventorizationDoc> inventorizationDocList;
 
     public void setItems(List<Item> items) {
         if (this.items == null) {
@@ -161,13 +215,13 @@ public class Shop implements Serializable {
         }
     }
 
-    public void setIncomeDocList(List<IncomeDoc> incomeDocList) {
-        if (this.incomeDocList == null) {
-            this.incomeDocList = new ArrayList<>();
+    public void setDebitIncomeDocList(List<DebitIncomeDoc> debitIncomeDocList) {
+        if (this.debitIncomeDocList == null) {
+            this.debitIncomeDocList = new ArrayList<>();
         }
-        this.incomeDocList.clear();
-        if (incomeDocList != null) {
-            this.incomeDocList.addAll(incomeDocList);
+        this.debitIncomeDocList.clear();
+        if (debitIncomeDocList != null) {
+            this.debitIncomeDocList.addAll(debitIncomeDocList);
         }
     }
 
@@ -201,13 +255,62 @@ public class Shop implements Serializable {
         }
     }
 
-    public void setPaymentDocList(List<PaymentDoc> paymentDocList) {
-        if (this.paymentDocList == null) {
-            this.paymentDocList = new ArrayList<>();
+    public void setCreditPaymentDocList(List<CreditPaymentDoc> creditPaymentDocList) {
+        if (this.creditPaymentDocList == null) {
+            this.creditPaymentDocList = new ArrayList<>();
         }
-        this.paymentDocList.clear();
-        if (paymentDocList != null) {
-            this.paymentDocList.addAll(paymentDocList);
+        this.creditPaymentDocList.clear();
+        if (creditPaymentDocList != null) {
+            this.creditPaymentDocList.addAll(creditPaymentDocList);
+        }
+    }
+
+    public void setAdditionalCreditDocList(List<AdditionalCreditDoc> additionalCreditDocList) {
+        if (this.additionalCreditDocList == null) {
+            this.additionalCreditDocList = new ArrayList<>();
+        }
+        this.additionalCreditDocList.clear();
+        if (additionalCreditDocList != null) {
+            this.additionalCreditDocList.addAll(additionalCreditDocList);
+        }
+    }
+
+    public void setAdditionalPaymentDocList(List<AdditionalPaymentDoc> additionalPaymentDocList) {
+        if (this.additionalPaymentDocList == null) {
+            this.additionalPaymentDocList = new ArrayList<>();
+        }
+        this.additionalPaymentDocList.clear();
+        if (additionalPaymentDocList != null) {
+            this.additionalPaymentDocList.addAll(additionalPaymentDocList);
+        }
+    }
+
+    public void setAdditionalDebitDocList(List<AdditionalDebitDoc> additionalDebitDocList) {
+        if (this.additionalDebitDocList == null) {
+            this.additionalDebitDocList = new ArrayList<>();
+        }
+        this.additionalDebitDocList.clear();
+        if (additionalDebitDocList != null) {
+            this.additionalDebitDocList.addAll(additionalDebitDocList);
+        }
+    }
+
+    public void setAdditionalIncomeDocList(List<AdditionalIncomeDoc> additionalIncomeDocList) {
+        if (this.additionalIncomeDocList == null) {
+            this.additionalIncomeDocList = new ArrayList<>();
+        }
+        this.additionalIncomeDocList.clear();
+        if (additionalIncomeDocList != null) {
+            this.additionalIncomeDocList.addAll(additionalIncomeDocList);
+        }
+    }
+    public void setInventorizationDocList(List<InventorizationDoc> inventorizationDocList) {
+        if (this.inventorizationDocList == null) {
+            this.inventorizationDocList = new ArrayList<>();
+        }
+        this.inventorizationDocList.clear();
+        if (inventorizationDocList != null) {
+            this.inventorizationDocList.addAll(inventorizationDocList);
         }
     }
 }

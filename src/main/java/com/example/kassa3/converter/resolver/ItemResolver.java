@@ -1,6 +1,6 @@
 package com.example.kassa3.converter.resolver;
 
-import com.example.kassa3.model.dto.ItemDto;
+import com.example.kassa3.model.dto.ItemCreateDto;
 import com.example.kassa3.model.entity.Item;
 import com.example.kassa3.service.abstracts.ItemService;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ public class ItemResolver {
     }
 
     @ObjectFactory
-    public Item resolve(ItemDto dto, @TargetType Class<Item> type) {
+    public Item resolve(ItemCreateDto dto, @TargetType Class<Item> type) {
         Item item;
         if (dto == null) {
             return null;

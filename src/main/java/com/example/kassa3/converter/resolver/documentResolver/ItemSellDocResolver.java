@@ -1,7 +1,7 @@
 package com.example.kassa3.converter.resolver.documentResolver;
 
 import com.example.kassa3.model.document.ItemSellDoc;
-import com.example.kassa3.model.dto.documentDto.ItemSellDocDto;
+import com.example.kassa3.model.dto.documentDto.documentCreateDto.ItemSellDocCreateDto;
 import com.example.kassa3.service.abstracts.document.ItemSellDocService;
 import lombok.AllArgsConstructor;
 import org.mapstruct.ObjectFactory;
@@ -14,15 +14,22 @@ public class ItemSellDocResolver {
     private final ItemSellDocService itemSellDocService;
 
     @ObjectFactory
-    public ItemSellDoc resolve(ItemSellDocDto dto, @TargetType Class<ItemSellDoc> type) {
+    public ItemSellDoc resolve(Long id, @TargetType Class<ItemSellDoc> type) {
         ItemSellDoc itemSellDoc;
-        if (dto == null) {
+        if (id == null) {
             return null;
-        } else if (dto.getId() == null) {
-            itemSellDoc = new ItemSellDoc();
         } else {
-            itemSellDoc = itemSellDocService.findById(dto.getId());
+            itemSellDoc = itemSellDocService.findById(id);
         }
         return itemSellDoc;
+    }
+
+    @ObjectFactory
+    public ItemSellDoc resolve(ItemSellDocCreateDto dto, @TargetType Class<ItemSellDoc> type) {
+        if (dto == null) {
+            return null;
+        } else {
+            return new ItemSellDoc();
+        }
     }
 }

@@ -40,19 +40,19 @@ public class Item implements Serializable {
     @Min(value = 0)
     @ToString.Exclude
     @Builder.Default
-    private BigDecimal basePrice = BigDecimal.valueOf(0);
+    private BigDecimal basePrice = BigDecimal.ZERO;
 
     @Column(name = "price")
     @Min(value = 0)
     @ToString.Exclude
     @Builder.Default
-    private BigDecimal price = BigDecimal.valueOf(0);
+    private BigDecimal price = BigDecimal.ZERO;
 
     @Column(name = "count")
     @Min(value = 0)
     @ToString.Exclude
     @Builder.Default
-    private BigDecimal count = BigDecimal.valueOf(0);
+    private BigDecimal count = BigDecimal.ZERO;
 
     @Builder.Default
     private boolean activate = true;

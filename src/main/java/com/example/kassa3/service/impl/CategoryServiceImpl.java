@@ -19,14 +19,14 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
         this.categoryDao = categoryDao;
     }
 
-    @Transactional
     @Override
+    @Transactional(readOnly = true)
     public List<Category> findAllDeactivate() {
         return categoryDao.findAllDeactivate();
     }
 
-    @Transactional
     @Override
+    @Transactional(readOnly = true)
     public List<Category> findAllActivate() {
         return categoryDao.findAllActivate();
     }

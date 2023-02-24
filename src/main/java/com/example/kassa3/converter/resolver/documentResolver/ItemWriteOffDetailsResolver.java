@@ -1,7 +1,7 @@
 package com.example.kassa3.converter.resolver.documentResolver;
 
 import com.example.kassa3.model.document.ItemWriteOffDetails;
-import com.example.kassa3.model.dto.documentDto.ItemWriteOffDetailsDto;
+import com.example.kassa3.model.dto.documentDto.documentCreateDto.ItemWriteOffDetailsCreateDto;
 import com.example.kassa3.service.abstracts.document.ItemWriteOffDetailsService;
 import lombok.AllArgsConstructor;
 import org.mapstruct.ObjectFactory;
@@ -14,15 +14,22 @@ public class ItemWriteOffDetailsResolver {
     private final ItemWriteOffDetailsService itemWriteOffDetailsService;
 
     @ObjectFactory
-    public ItemWriteOffDetails resolve(ItemWriteOffDetailsDto dto, @TargetType Class<ItemWriteOffDetails> type) {
+    public ItemWriteOffDetails resolve(Long id, @TargetType Class<ItemWriteOffDetails> type) {
         ItemWriteOffDetails itemWriteOffDetails;
-        if (dto == null) {
+        if (id == null) {
             return null;
-        } else if (dto.getId() == null) {
-            itemWriteOffDetails = new ItemWriteOffDetails();
         } else {
-            itemWriteOffDetails = itemWriteOffDetailsService.findById(dto.getId());
+            itemWriteOffDetails = itemWriteOffDetailsService.findById(id);
         }
         return itemWriteOffDetails;
+    }
+
+    @ObjectFactory
+    public ItemWriteOffDetails resolve(ItemWriteOffDetailsCreateDto dto, @TargetType Class<ItemWriteOffDetails> type) {
+        if (dto == null) {
+            return null;
+        } else {
+            return new ItemWriteOffDetails();
+        }
     }
 }

@@ -79,23 +79,42 @@ public class Partner {
             orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CreditDoc> creditDocList;
 
-//    @ToString.Exclude
-//    @OneToMany(mappedBy = "partner",
-//            cascade = {CascadeType.MERGE,
-//                    CascadeType.PERSIST,
-//                    CascadeType.REFRESH,
-//                    CascadeType.DETACH},
-//            orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<IncomeDoc> incomeDocList;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "partner",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdditionalCreditDoc> additionalCreditDocList;
 
-//    @ToString.Exclude
-//    @OneToMany(mappedBy = "partner",
-//            cascade = {CascadeType.MERGE,
-//                    CascadeType.PERSIST,
-//                    CascadeType.REFRESH,
-//                    CascadeType.DETACH},
-//            orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<PaymentDoc> paymentDocList;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "partner",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdditionalPaymentDoc> additionalPaymentDocList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "partner",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdditionalDebitDoc> additionalDebitDocList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "partner",
+            cascade = {CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdditionalIncomeDoc> additionalIncomeDocList;
+
 
     public void setItemArrivalDocs(List<ItemArrivalDoc> itemArrivalDocs) {
         if (this.itemArrivalDocs == null) {
@@ -137,23 +156,43 @@ public class Partner {
         }
     }
 
-//    public void setIncomeDocList(List<IncomeDoc> incomeDocList) {
-//        if (this.incomeDocList == null) {
-//            this.incomeDocList = new ArrayList<>();
-//        }
-//        this.incomeDocList.clear();
-//        if (incomeDocList != null) {
-//            this.incomeDocList.addAll(incomeDocList);
-//        }
-//    }
+    public void setAdditionalCreditDocList(List<AdditionalCreditDoc> additionalCreditDocList) {
+        if (this.additionalCreditDocList == null) {
+            this.additionalCreditDocList = new ArrayList<>();
+        }
+        this.additionalCreditDocList.clear();
+        if (additionalCreditDocList != null) {
+            this.additionalCreditDocList.addAll(additionalCreditDocList);
+        }
+    }
 
-//    public void setPaymentDocList(List<PaymentDoc> paymentDocList) {
-//        if (this.paymentDocList == null) {
-//            this.paymentDocList = new ArrayList<>();
-//        }
-//        this.paymentDocList.clear();
-//        if (paymentDocList != null) {
-//            this.paymentDocList.addAll(paymentDocList);
-//        }
-//    }
+    public void setAdditionalPaymentDocList(List<AdditionalPaymentDoc> additionalPaymentDocList) {
+        if (this.additionalPaymentDocList == null) {
+            this.additionalPaymentDocList = new ArrayList<>();
+        }
+        this.additionalPaymentDocList.clear();
+        if (additionalPaymentDocList != null) {
+            this.additionalPaymentDocList.addAll(additionalPaymentDocList);
+        }
+    }
+
+    public void setAdditionalDebitDocList(List<AdditionalDebitDoc> additionalDebitDocList) {
+        if (this.additionalDebitDocList == null) {
+            this.additionalDebitDocList = new ArrayList<>();
+        }
+        this.additionalDebitDocList.clear();
+        if (additionalDebitDocList != null) {
+            this.additionalDebitDocList.addAll(additionalDebitDocList);
+        }
+    }
+
+    public void setAdditionalIncomeDocList(List<AdditionalIncomeDoc> additionalIncomeDocList) {
+        if (this.additionalIncomeDocList == null) {
+            this.additionalIncomeDocList = new ArrayList<>();
+        }
+        this.additionalIncomeDocList.clear();
+        if (additionalIncomeDocList != null) {
+            this.additionalIncomeDocList.addAll(additionalIncomeDocList);
+        }
+    }
 }

@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, builder = @Builder(disableBuilder = true),
-        uses = {PartnerResolver.class, UserConverter.class})
+        uses = {PartnerResolver.class, UserCreateConverter.class})
 public interface PartnerConverter {
 
     Partner toModel(Long partnerId);

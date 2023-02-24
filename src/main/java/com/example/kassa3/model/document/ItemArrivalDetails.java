@@ -5,9 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -23,7 +22,11 @@ public class ItemArrivalDetails {
     private Long id;
 
     @Builder.Default
+    private final String docCode = "D11";
+
+    @Builder.Default
     private boolean activate = true;
+    private LocalDate deactivateDate;
 
     //цена закупки товара (при наличии на складе ранее закупленных товаров;
     // общая цена закупки расчитывается как средняя арифметическая взвешенная, если useBasePriceWAM = true(по умолчанию, true))

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -22,7 +23,11 @@ public class ItemWriteOffDetails {
     private Long id;
 
     @Builder.Default
+    private final String docCode = "D20";
+
+    @Builder.Default
     private boolean activate = true;
+    private LocalDate deactivateDate;
 
     //цена закупки товара
     @Min(value = 0)
@@ -34,7 +39,7 @@ public class ItemWriteOffDetails {
     private BigDecimal count = BigDecimal.valueOf(0);
 
     @Builder.Default
-    private BigDecimal totalSum = BigDecimal.valueOf(0);
+    private BigDecimal sum = BigDecimal.valueOf(0);
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Item item;
@@ -42,17 +47,17 @@ public class ItemWriteOffDetails {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private ItemWriteOffDoc itemWriteOffDoc;
 
-    public void updateTotalSum() {
-        totalSum = basePrice.multiply(count);
-    }
-
-    public void setPrice(BigDecimal basePrice) {
-        this.basePrice = basePrice;
-        updateTotalSum();
-    }
-
-    public void setCount(BigDecimal count) {
-        this.count = count;
-        updateTotalSum();
-    }
+//    public void updateTotalSum() {
+//        totalSum = basePrice.multiply(count);
+//    }
+//
+//    public void setPrice(BigDecimal basePrice) {
+//        this.basePrice = basePrice;
+//        updateTotalSum();
+//    }
+//
+//    public void setCount(BigDecimal count) {
+//        this.count = count;
+//        updateTotalSum();
+//    }
 }

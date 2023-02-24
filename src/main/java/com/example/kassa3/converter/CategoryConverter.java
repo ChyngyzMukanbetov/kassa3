@@ -10,7 +10,8 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, builder = @Builder(disableBuilder = true), uses = {CategoryResolver.class, UserConverter.class})
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, builder = @Builder(disableBuilder = true),
+        uses = {CategoryResolver.class, UserCreateConverter.class})
 public interface CategoryConverter {
 
     Category toModel(Long categoryId);

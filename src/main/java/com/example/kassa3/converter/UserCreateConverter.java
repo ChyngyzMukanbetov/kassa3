@@ -11,6 +11,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, builder = @Builder(disableBuilder = true),
         uses = {PhoneConverter.class, UserResolver.class, GenderConverter.class})
 public interface UserCreateConverter {
+
+    User toModel(Long userId);
+
     @Mapping(target = "phone", source = "phoneDto")
     @Mapping(target = "gender", source = "genderName")
     User toModel(UserCreateDto userCreateDto);

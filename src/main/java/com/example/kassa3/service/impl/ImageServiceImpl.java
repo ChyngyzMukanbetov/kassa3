@@ -4,6 +4,7 @@ import com.example.kassa3.dao.abstracts.ImageDao;
 import com.example.kassa3.model.entity.Image;
 import com.example.kassa3.service.abstracts.ImageService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class ImageServiceImpl extends ReadWriteServiceImpl<Image, Long> implemen
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Image> getImagesByItemId(Long itemId) {
         return imageDao.getImagesByItemId(itemId);
     }

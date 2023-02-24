@@ -6,9 +6,9 @@ import com.example.kassa3.model.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,17 +26,27 @@ public class CreditDoc {
     private Long id;
 
     @Builder.Default
+    private final String docCode = "D06";
+
+    @Builder.Default
     private boolean activate = true;
+    private LocalDate deactivateDate;
 
     @Builder.Default
     private boolean returned = false;
 
     @Builder.Default
-    private LocalDate documentData = LocalDate.now();
+    private boolean WrittenOff = false;
+    private LocalDate WriteOffDate;
+    private String WriteOffReason;
 
-    private LocalDate creditData;
+    @Builder.Default
+    private LocalDateTime documentDateTime = LocalDateTime.now();
 
-    private LocalDate returnDate;
+    private LocalDate creditDate;
+
+    private LocalDate returnPlanDate;
+    private LocalDate returnFactDate;
 
     private BigDecimal sumOfCredit;
 
@@ -56,7 +66,7 @@ public class CreditDoc {
                     CascadeType.DETACH},
             orphanRemoval = true, fetch = FetchType.LAZY
     )
-    private List<PaymentDoc> paymentDocList;
+    private List<CreditPaymentDoc> creditPaymentDocList;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
@@ -64,13 +74,16 @@ public class CreditDoc {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
-    public void setPaymentDocList(List<PaymentDoc> paymentDocList) {
-        if (this.paymentDocList == null) {
-            this.paymentDocList = new ArrayList<>();
+    public void setCreditPaymentDocList(List<CreditPaymentDoc> creditPaymentDocList) {
+        if (this.creditPaymentDocList == null) {
+            this.creditPaymentDocList = new ArrayList<>();
         }
-        this.paymentDocList.clear();
-        if (paymentDocList != null) {
-            this.paymentDocList.addAll(paymentDocList);
+        this.creditPaymentDocList.clear();
+        if (creditPaymentDocList != null) {
+            this.creditPaymentDocList.addAll(creditPaymentDocList);
+            for (CreditPaymentDoc creditPaymentDoc : creditPaymentDocList) {
+                creditPaymentDoc.setCreditDoc(this);
+            }
         }
     }
 }

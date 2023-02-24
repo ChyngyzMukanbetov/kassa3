@@ -1,7 +1,7 @@
 package com.example.kassa3.converter.resolver.documentResolver;
 
 import com.example.kassa3.model.document.ItemArrivalDoc;
-import com.example.kassa3.model.dto.documentDto.ItemArrivalDocDto;
+import com.example.kassa3.model.dto.documentDto.documentCreateDto.ItemArrivalDocCreateDto;
 import com.example.kassa3.service.abstracts.document.ItemArrivalDocService;
 import lombok.AllArgsConstructor;
 import org.mapstruct.ObjectFactory;
@@ -14,15 +14,22 @@ public class ItemArrivalDocResolver {
     private final ItemArrivalDocService itemArrivalDocService;
 
     @ObjectFactory
-    public ItemArrivalDoc resolve(ItemArrivalDocDto dto, @TargetType Class<ItemArrivalDoc> type) {
+    public ItemArrivalDoc resolve(Long id, @TargetType Class<ItemArrivalDoc> type) {
         ItemArrivalDoc itemArrivalDoc;
-        if (dto == null) {
+        if (id == null) {
             return null;
-        } else if (dto.getId() == null) {
-            itemArrivalDoc = new ItemArrivalDoc();
         } else {
-            itemArrivalDoc = itemArrivalDocService.findById(dto.getId());
+            itemArrivalDoc = itemArrivalDocService.findById(id);
         }
         return itemArrivalDoc;
+    }
+
+    @ObjectFactory
+    public ItemArrivalDoc resolve(ItemArrivalDocCreateDto dto, @TargetType Class<ItemArrivalDoc> type) {
+        if (dto == null) {
+            return null;
+        } else {
+            return new ItemArrivalDoc();
+        }
     }
 }

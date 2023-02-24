@@ -19,24 +19,25 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
         this.itemDao = itemDao;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<Item> findAllDeletedByUser(User user) {
         return itemDao.findAllDeletedByUser(user);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<Item> findAllDeactivate() {
         return itemDao.findAllDeactivate();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<Item> findAllActivate() {
         return itemDao.findAllActivate();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Item> findActivateItemsByItemName(String itemName) {
         return itemDao.findActivateItemsByItemName(itemName);

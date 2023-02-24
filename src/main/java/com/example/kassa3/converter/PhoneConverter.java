@@ -10,7 +10,8 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, builder = @Builder(disableBuilder = true), uses = {PhoneResolver.class, PhoneCodeConverter.class})
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, builder = @Builder(disableBuilder = true),
+        uses = {PhoneResolver.class, PhoneCodeConverter.class})
 public interface PhoneConverter {
 
     @Mapping(source = "phoneCode.code", target = "phoneCodeCode")

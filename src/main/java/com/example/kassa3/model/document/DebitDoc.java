@@ -6,9 +6,9 @@ import com.example.kassa3.model.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +25,29 @@ public class DebitDoc {
     private Long id;
 
     @Builder.Default
+    private final String docCode = "D07";
+
+    @Builder.Default
     private boolean activate = true;
+    private LocalDate deactivateDate;
 
     @Builder.Default
     private boolean returned = false;
 
     @Builder.Default
-    private LocalDate documentData = LocalDate.now();
+    private boolean WrittenOff = false;
+    private LocalDate WriteOffDate;
+    private String WriteOffReason;
 
-    private LocalDate debitData;
+    @Builder.Default
+    private LocalDateTime documentDateTime = LocalDateTime.now();
 
-    private LocalDate returnDate;
+    private LocalDate debitDate;
 
-    private BigDecimal sumOfDebt;
+    private LocalDate returnPlanDate;
+    private LocalDate returnFactDate;
+
+    private BigDecimal sumOfDebit;
 
     private String comment;
 
@@ -55,7 +65,7 @@ public class DebitDoc {
                     CascadeType.DETACH},
             orphanRemoval = true, fetch = FetchType.LAZY
     )
-    private List<IncomeDoc> incomeDocList;
+    private List<DebitIncomeDoc> debitIncomeDocList;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Shop shop;
@@ -63,13 +73,16 @@ public class DebitDoc {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
-    public void setIncomeDocList(List<IncomeDoc> incomeDocList) {
-        if (this.incomeDocList == null) {
-            this.incomeDocList = new ArrayList<>();
+    public void setDebitIncomeDocList(List<DebitIncomeDoc> debitIncomeDocList) {
+        if (this.debitIncomeDocList == null) {
+            this.debitIncomeDocList = new ArrayList<>();
         }
-        this.incomeDocList.clear();
-        if (incomeDocList != null) {
-            this.incomeDocList.addAll(incomeDocList);
+        this.debitIncomeDocList.clear();
+        if (debitIncomeDocList != null) {
+            this.debitIncomeDocList.addAll(debitIncomeDocList);
+            for (DebitIncomeDoc debitIncomeDoc : debitIncomeDocList) {
+                debitIncomeDoc.setDebitDoc(this);
+            }
         }
     }
 }

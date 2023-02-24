@@ -1,14 +1,12 @@
 package com.example.kassa3.model.document;
 
 import com.example.kassa3.model.entity.Item;
-import com.example.kassa3.model.entity.Shop;
-import com.example.kassa3.model.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,7 +22,11 @@ public class ItemSellDetails {
     private Long id;
 
     @Builder.Default
+    private final String docCode = "D17";
+
+    @Builder.Default
     private boolean activate = true;
+    private LocalDate deactivateDate;
 
     //цена закупки товара
     @Min(value = 0)
@@ -55,11 +57,11 @@ public class ItemSellDetails {
     private boolean nonCash = false;
 
     @Builder.Default
-    private boolean onDebt = false;
+    private boolean onDebit = false;
 
     @Min(value = 0)
     @Builder.Default
-    private BigDecimal sumOfDebt = BigDecimal.valueOf(0);
+    private BigDecimal sumOfDebit = BigDecimal.valueOf(0);
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Item item;
@@ -67,30 +69,30 @@ public class ItemSellDetails {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private ItemSellDoc itemSellDoc;
 
-    public void updateSum() {
-        sum = price.multiply(count);
-        updateTotalSum();
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-        updateSum();
-    }
-
-    public void setCount(BigDecimal count) {
-        this.count = count;
-        updateSum();
-    }
-
-    public void setDiscountSum(BigDecimal discountSum) {
-        if (discountSum.compareTo(sum) > 0) {
-            throw new IllegalArgumentException("Discount sum cannot be greater than sum");
-        }
-        this.discountSum = discountSum;
-        updateTotalSum();
-    }
-
-    private void updateTotalSum() {
-        totalSum = sum.subtract(discountSum);
-    }
+//    public void updateSum() {
+//        sum = price.multiply(count);
+//        updateTotalSum();
+//    }
+//
+//    public void setPrice(BigDecimal price) {
+//        this.price = price;
+//        updateSum();
+//    }
+//
+//    public void setCount(BigDecimal count) {
+//        this.count = count;
+//        updateSum();
+//    }
+//
+//    public void setDiscountSum(BigDecimal discountSum) {
+//        if (discountSum.compareTo(sum) > 0) {
+//            throw new IllegalArgumentException("Discount sum cannot be greater than sum");
+//        }
+//        this.discountSum = discountSum;
+//        updateTotalSum();
+//    }
+//
+//    private void updateTotalSum() {
+//        totalSum = sum.subtract(discountSum);
+//    }
 }

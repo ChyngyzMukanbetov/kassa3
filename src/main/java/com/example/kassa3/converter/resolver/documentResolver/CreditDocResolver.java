@@ -1,7 +1,7 @@
 package com.example.kassa3.converter.resolver.documentResolver;
 
 import com.example.kassa3.model.document.CreditDoc;
-import com.example.kassa3.model.dto.documentDto.CreditDocDto;
+import com.example.kassa3.model.dto.documentDto.documentCreateDto.CreditDocCreateDto;
 import com.example.kassa3.service.abstracts.document.CreditDocService;
 import lombok.AllArgsConstructor;
 import org.mapstruct.ObjectFactory;
@@ -14,15 +14,22 @@ public class CreditDocResolver {
     private final CreditDocService creditDocService;
 
     @ObjectFactory
-    public CreditDoc resolve(CreditDocDto dto, @TargetType Class<CreditDoc> type) {
+    public CreditDoc resolve(Long id, @TargetType Class<CreditDoc> type) {
         CreditDoc creditDoc;
-        if (dto == null) {
+        if (id == null) {
             return null;
-        } else if (dto.getId() == null) {
-            creditDoc = new CreditDoc();
         } else {
-            creditDoc = creditDocService.findById(dto.getId());
+            creditDoc = creditDocService.findById(id);
         }
         return creditDoc;
+    }
+
+    @ObjectFactory
+    public CreditDoc resolve(CreditDocCreateDto dto, @TargetType Class<CreditDoc> type) {
+        if (dto == null) {
+            return null;
+        } else {
+            return new CreditDoc();
+        }
     }
 }

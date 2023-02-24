@@ -6,15 +6,15 @@ import com.example.kassa3.model.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Builder
 @AllArgsConstructor
 public class ItemSellDoc {
@@ -25,12 +25,16 @@ public class ItemSellDoc {
     private Long id;
 
     @Builder.Default
-    private boolean activate = true;
+    private final String docCode = "D18";
 
     @Builder.Default
-    private LocalDate documentData  = LocalDate.now();
+    private boolean activate = true;
+    private LocalDate deactivateDate;
 
-    private LocalDate itemSellData;
+    @Builder.Default
+    private LocalDateTime documentDateTime = LocalDateTime.now();
+
+    private LocalDate itemSellDate;
 
     private String comment;
 
@@ -70,6 +74,16 @@ public class ItemSellDoc {
         this.itemSellDetailsList.clear();
         if (itemSellDetailsList != null) {
             this.itemSellDetailsList.addAll(itemSellDetailsList);
+            for (ItemSellDetails itemSellDetails : itemSellDetailsList) {
+                itemSellDetails.setItemSellDoc(this);
+            }
         }
+    }
+
+    public void setDebitDoc(DebitDoc debitDoc) {
+        if (debitDoc != null) {
+            debitDoc.setItemSellDoc(this);
+        }
+        this.debitDoc = debitDoc;
     }
 }
